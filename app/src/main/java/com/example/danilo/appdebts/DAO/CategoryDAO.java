@@ -19,11 +19,13 @@ public class CategoryDAO {
         this.connection = connection;
     }
 
-    public void insert(Category category){
+    public Category insert(Category category){
         ContentValues contentValues = new ContentValues();
         contentValues.put("tipo", category.getType());
-        this.connection.insertOrThrow("categoria", null, contentValues);
+        long id = this.connection.insertOrThrow("categoria", null, contentValues);
+        category.setId(id);
         Log.d(TAG, "Categoria inserida com sucesso");
+        return category;
     }
 
     public void remove(long id){
