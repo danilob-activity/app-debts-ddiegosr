@@ -17,7 +17,7 @@ public class ScriptDLL {
         sql.append("cod_cat INTEGER NOT NULL,");
         sql.append("valor REAL NOT NULL,");
         sql.append("descricao TEXT NOT NULL,");
-        sql.append("data_vencimento DATE NOT NULL,");
+        sql.append("data_vencimento DATE,");
         sql.append("data_pagamento DATE,");
         sql.append("FOREIGN KEY (cod_cat) REFERENCES categoria(id)");
         sql.append(");");
