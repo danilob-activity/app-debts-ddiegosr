@@ -55,4 +55,16 @@ public class Debt {
     public void setPayDate(String payDate) {
         this.payDate = payDate;
     }
+
+    @Override
+    public String toString() {
+        return "Debt{" +
+                "id=" + id +
+                ", category=" + category +
+                ", value=" + value +
+                ", description='" + description + '\'' +
+                ", paymentDate='" + paymentDate + '\'' +
+                ", payDate='" + payDate + '\'' +
+                '}';
+    }
 }

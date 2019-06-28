@@ -52,7 +52,7 @@ public class CategoryDAO {
                 cat.setId(result.getInt(result.getColumnIndexOrThrow("id")));
                 cat.setType(result.getString(result.getColumnIndexOrThrow("tipo")));
                 categories.add(cat);
-                Log.d("TAG", "Listando: " + cat.getId() + " " + cat.getType());
+                Log.d(TAG, "Listando: " + cat.getId() + " " + cat.getType());
             } while(result.moveToNext());
             result.close();
         }
