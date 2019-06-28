@@ -1,6 +1,6 @@
 package com.example.danilo.appdebts.classes;
 
-public class Debts {
+public class Debt {
     private long id;
     private Category category;
     private double value;

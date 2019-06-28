@@ -7,20 +7,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.danilo.appdebts.classes.Category;
-import com.example.danilo.appdebts.classes.Debts;
+import com.example.danilo.appdebts.classes.Debt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebtsDAO {
+public class DebtDAO {
     private SQLiteDatabase connection;
-    private static final String TAG = "DebtsDAO";
+    private static final String TAG = "DebtDAO";
 
-    public DebtsDAO(SQLiteDatabase connection) {
+    public DebtDAO(SQLiteDatabase connection) {
         this.connection = connection;
     }
 
-    public void insert(Debts debt) {
+    public void insert(Debt debt) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("cod_cat", debt.getCategory().getId());
         contentValues.put("valor", debt.getValue());
@@ -38,7 +38,7 @@ public class DebtsDAO {
         Log.d(TAG, "Divida ID: " + id + " excluida com sucesso");
     }
 
-    public void alter(Debts debt) {
+    public void alter(Debt debt) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("cod_cat", debt.getCategory().getId());
         contentValues.put("valor", debt.getValue());
@@ -51,14 +51,14 @@ public class DebtsDAO {
         Log.d(TAG, "Divida ID: " + debt.getId() + " alterada com sucesso");
     }
 
-    public List<Debts> list() {
-        List<Debts> debts = new ArrayList<Debts>();
+    public List<Debt> list() {
+        List<Debt> debts = new ArrayList<Debt>();
         Cursor result = connection.rawQuery("SELECT * FROM dividas", null);
         CategoryDAO categoryDAO = new CategoryDAO(connection);
         if (result.getCount() > 0) {
             result.moveToFirst();
             do {
-                Debts deb = new Debts();
+                Debt deb = new Debt();
                 Category category = categoryDAO.get(result.getColumnIndexOrThrow("cod_cat"));
                 deb.setId(result.getInt(result.getColumnIndexOrThrow("id")));
                 deb.setValue(result.getDouble(result.getColumnIndexOrThrow("valor")));
@@ -74,8 +74,8 @@ public class DebtsDAO {
         return debts;
     }
 
-    public Debts get(long id) {
-        Debts debts = new Debts();
+    public Debt get(long id) {
+        Debt debts = new Debt();
         CategoryDAO categoryDAO = new CategoryDAO(connection);
         String[] params = new String[1];
         params[0] = String.valueOf(id);
