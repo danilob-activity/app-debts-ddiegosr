@@ -59,7 +59,7 @@ public class DebtDAO {
             result.moveToFirst();
             do {
                 Debt deb = new Debt();
-                Category category = categoryDAO.get(result.getColumnIndexOrThrow("cod_cat"));
+                Category category = categoryDAO.get(result.getInt(result.getColumnIndexOrThrow("cod_cat")));
                 deb.setId(result.getInt(result.getColumnIndexOrThrow("id")));
                 deb.setValue(result.getDouble(result.getColumnIndexOrThrow("valor")));
                 deb.setDescription(result.getString(result.getColumnIndexOrThrow("descricao")));
