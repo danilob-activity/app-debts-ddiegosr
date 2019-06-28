@@ -53,15 +53,18 @@ public class DebtsDAO {
     public List<Debts> list() {
         List<Debts> debts = new ArrayList<Debts>();
         Cursor result = connection.rawQuery("SELECT * FROM dividas", null);
+        CategoryDAO categoryDAO = new CategoryDAO(connection);
         if (result.getCount() > 0) {
             result.moveToFirst();
             do {
                 Debts deb = new Debts();
+                Category category = categoryDAO.get(result.getColumnIndexOrThrow("cod_cat"));
                 deb.setId(result.getInt(result.getColumnIndexOrThrow("id")));
                 deb.setValue(result.getDouble(result.getColumnIndexOrThrow("valor")));
                 deb.setDescription(result.getString(result.getColumnIndexOrThrow("descricao")));
                 deb.setPaymentDate(result.getString(result.getColumnIndexOrThrow("data_vencimento")));
                 deb.setPayDate(result.getString(result.getColumnIndexOrThrow("data_pagamento")));
+                deb.setCategory(category);
                 debts.add(deb);
                 Log.d(TAG, "Listando: " + deb.getId() + " - " + deb.getDescription());
             } while(result.moveToNext());
@@ -72,16 +75,19 @@ public class DebtsDAO {
 
     public Debts get(long id) {
         Debts debts = new Debts();
+        CategoryDAO categoryDAO = new CategoryDAO(connection);
         String[] params = new String[1];
         params[0] = String.valueOf(id);
         Cursor result = connection.rawQuery("SELECT * FROM dividas WHERE id = ?", params);
         if(result.getCount() > 0) {
             result.moveToFirst();
+            Category category = categoryDAO.get(result.getColumnIndexOrThrow("cod_cat"));
             debts.setId(result.getInt(result.getColumnIndexOrThrow("id")));
             debts.setValue(result.getDouble(result.getColumnIndexOrThrow("valor")));
             debts.setDescription(result.getString(result.getColumnIndexOrThrow("descricao")));
             debts.setPaymentDate(result.getString(result.getColumnIndexOrThrow("data_vencimento")));
             debts.setPayDate(result.getString(result.getColumnIndexOrThrow("data_pagamento")));
+            debts.setCategory(category);
             result.close();
             return debts;
         }
