@@ -23,22 +23,23 @@ public class CategoryDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put("tipo", category.getType());
         this.connection.insertOrThrow("categoria", null, contentValues);
-        Log.d(TAG, "Inserido com sucesso");
+        Log.d(TAG, "Categoria inserida com sucesso");
     }
 
     public void remove(long id){
         String[] params = new String[1];
         params[0] = String.valueOf(id);
         connection.delete("categoria", "id = ?", params);
-        Log.d(TAG, "Categoria ID: " + id + "exlcuida com sucesso");
+        Log.d(TAG, "Categoria ID: " + id + " exlcuida com sucesso");
     }
 
-    public void alter(Category cat){
+    public void alter(Category category){
         ContentValues contentValues = new ContentValues();
-        contentValues.put("tipo", cat.getType());
+        contentValues.put("tipo", category.getType());
         String[] params = new String[1];
-        params[0] = String.valueOf(cat.getId());
+        params[0] = String.valueOf(category.getId());
         connection.update("categoria", contentValues, "id = ?", params);
+        Log.d(TAG, "Categoria ID: " + category.getId() + " alterada com sucesso");
     }
 
     public List<Category> list() {
@@ -59,16 +60,17 @@ public class CategoryDAO {
     }
 
     public Category get(long id){
-        Category cat = new Category();
+        Category category = new Category();
         String[] params = new String[1];
         params[0] = String.valueOf(id);
         Cursor result = connection.rawQuery("SELECT * FROM categoria WHERE id=?", params);
         if(result.getCount() > 0) {
             result.moveToFirst();
-            cat.setId(result.getInt(result.getColumnIndexOrThrow("id")));
-            cat.setType(result.getString(result.getColumnIndexOrThrow("tipo")));
+            category.setId(result.getInt(result.getColumnIndexOrThrow("id")));
+            category.setType(result.getString(result.getColumnIndexOrThrow("tipo")));
             result.close();
-            return cat;
+            Log.d(TAG, "Categoria ID: " + id + " obtida com sucesso");
+            return category;
         }
         return null;
     }

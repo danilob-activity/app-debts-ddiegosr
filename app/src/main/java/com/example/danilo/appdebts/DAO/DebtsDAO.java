@@ -48,6 +48,7 @@ public class DebtsDAO {
         String[] params = new String[1];
         params[0] = String.valueOf(debt.getId());
         connection.update("dividas", contentValues, "id = ?", params);
+        Log.d(TAG, "Divida ID: " + debt.getId() + " alterada com sucesso");
     }
 
     public List<Debts> list() {
@@ -89,6 +90,7 @@ public class DebtsDAO {
             debts.setPayDate(result.getString(result.getColumnIndexOrThrow("data_pagamento")));
             debts.setCategory(category);
             result.close();
+            Log.d(TAG, "Divida ID: " + id + " obtida com sucesso");
             return debts;
         }
         return null;
