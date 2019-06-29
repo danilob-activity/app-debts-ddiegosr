@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.danilo.appdebts.DAO.CategoryDAO;
+import com.example.danilo.appdebts.DAO.DebtDAO;
 import com.example.danilo.appdebts.classes.Category;
 import com.example.danilo.appdebts.database.DatabaseHelper;
+import com.example.danilo.appdebts.database.Seeder;
 
 public class TelaInicial extends AppCompatActivity {
     private SQLiteDatabase mConection;
@@ -24,6 +26,8 @@ public class TelaInicial extends AppCompatActivity {
         mLayout = findViewById(R.id.layout);
 
         createConnection();
+        //Uncomment the next line to seed the database
+        //Seeder.seed(mConection);
     }
 
     private void createConnection() {
