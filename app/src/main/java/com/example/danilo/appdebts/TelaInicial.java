@@ -24,18 +24,13 @@ public class TelaInicial extends AppCompatActivity {
         mLayout = findViewById(R.id.layout);
 
         createConnection();
-        Category category = new Category("Tia do Lanche");
-        CategoryDAO categoryDAO = new CategoryDAO(mConection);
-//        categoryDAO.insert(category);
-        categoryDAO.list();
-        Log.d("CategoryList", categoryDAO.get(2).getType());
     }
 
     private void createConnection() {
         try {
             mDataHelper = new DatabaseHelper(this);
             mConection = mDataHelper.getWritableDatabase();
-            Log.d("Database", "Conexão realizada com sucess");
+            Log.d("Database", "Conexão realizada com sucesso");
             Snackbar.make(mLayout, R.string.sucess_conection, Snackbar.LENGTH_LONG).show();
         } catch (SQLException e) {
             Log.d("Database", "Erro na conexão", e);
