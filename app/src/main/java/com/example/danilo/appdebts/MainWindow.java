@@ -16,6 +16,7 @@ import android.view.View;
 import com.example.danilo.appdebts.DAO.DebtDAO;
 import com.example.danilo.appdebts.adapters.DebtsAdapter;
 import com.example.danilo.appdebts.database.DatabaseHelper;
+import com.example.danilo.appdebts.database.Seeder;
 
 public class MainWindow extends AppCompatActivity {
 
@@ -45,6 +46,9 @@ public class MainWindow extends AppCompatActivity {
         mListDebts = findViewById(R.id.recycler_view_debts);
         mLayout = findViewById(R.id.layout);
         createConnection();
+//        Seeder.seed(mConection);
+//        DebtDAO debtDAO = new DebtDAO(mConection);
+//        debtDAO.get(1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mListDebts.setLayoutManager(linearLayoutManager);
         mDebtsAdapter = new DebtsAdapter(mDebtsDAO.list());
