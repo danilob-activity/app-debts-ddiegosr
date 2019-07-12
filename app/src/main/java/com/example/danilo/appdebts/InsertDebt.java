@@ -23,7 +23,7 @@ public class InsertDebt extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
         getSupportActionBar().setHomeButtonEnabled(true); //Ativar o botão
-        getSupportActionBar().setTitle("Inserir novo débito");
+        getSupportActionBar().setTitle(R.string.insertTitle);
     }
 
     @Override
