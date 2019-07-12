@@ -68,14 +68,15 @@
         android:id="@+id/switchPay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
 
-        android:layout_marginTop="8dp"
-        android:showText="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
         android:splitTrack="false"
         android:textOff="To Pay"
         android:textOn="Paid"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textViewValue" />
 
     <EditText
@@ -122,6 +123,7 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:editable="false"
@@ -130,6 +132,17 @@
         android:inputType="numberDecimal"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewValue"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPaymentorPay"
-        tools:layout_editor_absoluteX="85dp" />
+        app:layout_constraintStart_toEndOf="@+id/textViewValue"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPaymentorPay" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="To Pay"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewValue" />
 </android.support.constraint.ConstraintLayout>
