@@ -1,13 +1,24 @@
 package com.example.danilo.appdebts;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
 
 public class InsertDebt extends AppCompatActivity {
+
+    private FloatingActionButton mFabNewCategory;
+    private Spinner mSpinnerCategories;
+    private EditText mEditTextDescription;
+    private EditText mEditTextDate;
+    private EditText mEditTextValue;
+    private Switch mSwitchPay;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -21,6 +32,15 @@ public class InsertDebt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_debt);
 
+        //Linking Elements
+        mFabNewCategory = findViewById(R.id.fabNewCategory);
+        mSpinnerCategories = findViewById(R.id.spinnerCategories);
+        mEditTextDescription = findViewById(R.id.editTextDescription);
+        mEditTextDate = findViewById(R.id.editTextDate);
+        mEditTextValue = findViewById(R.id.editTextValue);
+        mSwitchPay = findViewById(R.id.switchPay);
+
+        //ActionBar Configuration
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
         getSupportActionBar().setHomeButtonEnabled(true); //Ativar o botão
         getSupportActionBar().setTitle(R.string.insertTitle);
