@@ -1,21 +1,34 @@
 package com.example.danilo.appdebts;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
+import com.example.danilo.appdebts.DAO.CategoryDAO;
+import com.example.danilo.appdebts.DAO.DebtDAO;
+import com.example.danilo.appdebts.classes.Category;
+import com.example.danilo.appdebts.database.DBConnection;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class InsertDebt extends AppCompatActivity {
@@ -28,6 +41,8 @@ public class InsertDebt extends AppCompatActivity {
     private Switch mSwitchPay;
 
     private final Calendar myCalendar = Calendar.getInstance();
+    private CategoryDAO mCategoryDAO;
+    private DebtDAO mDebtDAO;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,6 +63,11 @@ public class InsertDebt extends AppCompatActivity {
         mEditTextDate = findViewById(R.id.editTextDate);
         mEditTextValue = findViewById(R.id.editTextValue);
         mSwitchPay = findViewById(R.id.switchPay);
+
+        //configurate DAO classes to access db
+        SQLiteDatabase connection = DBConnection.getConnection(this);
+        mCategoryDAO = new CategoryDAO(connection);
+        mDebtDAO = new DebtDAO(connection);
 
         //ActionBar Configuration
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
@@ -75,6 +95,52 @@ public class InsertDebt extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        mFabNewCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(InsertDebt.this);
+                builder.setTitle(R.string.newCategoryTitle);
+
+                final EditText edtText = new EditText(InsertDebt.this);
+                edtText.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(edtText);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mCategoryDAO.insert(new Category(edtText.getText().toString()));
+                        updateSpinnerCategory();
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        updateSpinnerCategory();
+    }
+
+    private void updateSpinnerCategory() {
+        List<Category> categories = mCategoryDAO.list();
+        HashMap<Long, String> categoriesMap = new HashMap<Long, String>();
+        final List<String> list = new ArrayList<String>();
+
+        for (Category c : categories) {
+            categoriesMap.put(c.getId(), c.getType());
+            list.add(c.getType());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerCategories.setAdapter(adapter);
     }
 
     private void updateLabel() {
