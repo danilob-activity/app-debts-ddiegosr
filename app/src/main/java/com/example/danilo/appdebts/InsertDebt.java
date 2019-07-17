@@ -1,5 +1,6 @@
 package com.example.danilo.appdebts;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +8,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class InsertDebt extends AppCompatActivity {
 
@@ -19,6 +26,8 @@ public class InsertDebt extends AppCompatActivity {
     private EditText mEditTextDate;
     private EditText mEditTextValue;
     private Switch mSwitchPay;
+
+    private final Calendar myCalendar = Calendar.getInstance();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -44,6 +53,35 @@ public class InsertDebt extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
         getSupportActionBar().setHomeButtonEnabled(true); //Ativar o botão
         getSupportActionBar().setTitle(R.string.insertTitle);
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        mEditTextDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(InsertDebt.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+    }
+
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+
+        mEditTextDate.setText(sdf.format(myCalendar.getTime()));
     }
 
     @Override
