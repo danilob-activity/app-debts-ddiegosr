@@ -61,6 +61,21 @@ public class CategoryDAO {
         return categories;
     }
 
+    public Category getByType(String type) {
+        Category cat = new Category();
+        String[] params = new String[1];
+        params[0] = type;
+        Cursor result = connection.rawQuery("SELECT * FROM categoria WHERE tipo=?", params);
+        if(result.getCount() > 0) {
+            result.moveToFirst();
+            cat.setId(result.getLong(result.getColumnIndexOrThrow("id")));
+            cat.setType(result.getString(result.getColumnIndexOrThrow("tipo")));
+            result.close();
+            return cat;
+        }
+        return null;
+    }
+
     public Category get(long id){
         Category category = new Category();
         String[] params = new String[1];
