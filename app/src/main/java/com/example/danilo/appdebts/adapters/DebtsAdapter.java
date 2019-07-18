@@ -1,5 +1,7 @@
 package com.example.danilo.appdebts.adapters;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.danilo.appdebts.DAO.DebtDAO;
 import com.example.danilo.appdebts.R;
 import com.example.danilo.appdebts.classes.Debt;
+import com.example.danilo.appdebts.database.DBConnection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +26,19 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
     private int selectedItem = -1;
     private int actualItem = -1;
 
+    private DebtDAO mDebtDAO;
+
     public DebtsAdapter(List<Debt> data) {
         mData = data;
     }
 
+    private Context mContext;
+
     @NonNull
     @Override
     public DebtsAdapter.ViewHolderDebts onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        mContext = parent.getContext();
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View view = layoutInflater.inflate(R.layout.list_view_debts, parent, false);
         ViewHolderDebts holderDebts = new ViewHolderDebts(view);
         mDataViews.add(holderDebts);
@@ -109,6 +118,21 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
                     }
 
                     selectedItem = actualItem;
+                }
+            });
+
+            mbtnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mData.size() > 0) {
+                        int debtPosition = getLayoutPosition();
+                        Debt debt = mData.get(debtPosition);
+                        SQLiteDatabase connection = DBConnection.getConnection(mContext);
+                        mDebtDAO = new DebtDAO(connection);
+                        mDebtDAO.remove(debt.getId());
+                        mData.remove(debtPosition);
+                        notifyItemRemoved(debtPosition);
+                    }
                 }
             });
         }
